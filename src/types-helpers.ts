@@ -42,24 +42,6 @@ const enforcedArray = enforceType([
   { foo: 1, bar: 1 },
 ] as const);
 
-type EnforceGenericsInArrayElement1<T, E> = T extends [infer First, ...infer Rest]
-  ? Rest extends []
-  ? [First extends E ? First : never] // or [EnforceType<First>] to enforce a specific transformation
-  : [First extends E ? First : never, ...EnforceGenericsInArrayElement1<Rest, E>]
-  : never;
-
-type EnforceType1<T> = T extends Double<infer U> ? Double<U> : never;
-
-type Double1<T> = { foo: T; bar: T };
-
-const enforceType1 = <T extends Array<any>>(array: T): EnforceGenericsInArrayElement1<T, Double<any>> =>
-  array as EnforceGenericsInArrayElement1<T, string>;
-
-// Usage example
-const enforcedArray1 = enforceType1([
-  { foo: "foo", bar: "bar" },
-  { foo: 1, bar: 1 },
-] as const);
 
 type EnforceConst<T> = T extends { [K in keyof T]: T[K] }
   ? { readonly [K in keyof T]: EnforceConst<T[K]> }

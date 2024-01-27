@@ -30,7 +30,7 @@ function transition<FromContext, Payload, Return>(
     if (typeof target === "function") {
       const result = target(context, payload);
 
-      if (result === false) {
+      if (result === false || result === undefined) {
         return;
       }
 
@@ -38,7 +38,7 @@ function transition<FromContext, Payload, Return>(
         return result;
       }
 
-      if (result === undefined) {
+      if (result === true) {
         continue;
       }
 
@@ -46,8 +46,6 @@ function transition<FromContext, Payload, Return>(
     }
 
     if (!Array.isArray(target)) {
-
-
       return target;
     }
 
